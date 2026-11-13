@@ -1,0 +1,6 @@
+# Archify receipts contain absolute local paths
+*.delivery.json
+*.finalize.json
+*.finalize-summary.json
+*.browser-check.json
+.archify/

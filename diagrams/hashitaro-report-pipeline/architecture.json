@@ -1,0 +1,383 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Hashitaro cross-repo report pipeline",
+    "output": "diagrams/hashitaro-report-pipeline/index.html",
+    "quality_profile": "showcase",
+    "locale": "en",
+    "repository": {
+      "url": "https://github.com/IRISA-Robot/hashitaro-docs.git",
+      "provider": "github",
+      "link_mode": "web",
+      "revision": "0f0ca3a861bb57b62c9f9acf07841cbc21ea1726"
+    }
+  },
+  "components": [
+    {
+      "id": "sketch",
+      "type": "frontend",
+      "label": "hashitaro-sketch-app",
+      "sublabel": "Flutter · Tablet sketch",
+      "pos": [
+        40,
+        60
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "use-cases/report-generation/modes/tablet.md",
+          "line": 18,
+          "end_line": 22,
+          "label": "findings recorded in sketch app"
+        },
+        {
+          "path": "use-cases/report-generation/modes/tablet.md",
+          "line": 63,
+          "label": "mobile sketch upload to backend"
+        }
+      ]
+    },
+    {
+      "id": "app",
+      "type": "frontend",
+      "label": "hashitaro-app",
+      "sublabel": "Next.js · create & download",
+      "pos": [
+        40,
+        220
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "repos.md",
+          "line": 14,
+          "label": "repo role"
+        },
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 25,
+          "end_line": 26,
+          "label": "steps 1–2: choose mode & upload"
+        },
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 33,
+          "label": "step 9: poll & download"
+        }
+      ]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "Backend API",
+      "sublabel": "FastAPI · validation",
+      "pos": [
+        300,
+        220
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "tag": "bills before enqueue",
+      "sources": [
+        {
+          "path": "repos.md",
+          "line": 15,
+          "label": "repo role"
+        },
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 27,
+          "label": "step 3: validate, store, queue"
+        },
+        {
+          "path": "use-cases/report-generation/lifecycle.md",
+          "line": 21,
+          "end_line": 22,
+          "label": "billing then enqueue"
+        }
+      ]
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Redis queue",
+      "sublabel": "RQ · 12-hour timeout",
+      "pos": [
+        560,
+        220
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "use-cases/report-generation/lifecycle.md",
+          "line": 22,
+          "label": "RQ report job"
+        },
+        {
+          "path": "use-cases/report-generation/lifecycle.md",
+          "line": 23,
+          "label": "worker job recovery"
+        }
+      ]
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Report worker",
+      "sublabel": "builds format data",
+      "pos": [
+        820,
+        220
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 30,
+          "end_line": 32,
+          "label": "steps 6–8: build, render, store"
+        },
+        {
+          "path": "use-cases/report-generation/modes/tablet.md",
+          "line": 37,
+          "end_line": 48,
+          "label": "Tablet worker → HC → renderer"
+        }
+      ]
+    },
+    {
+      "id": "hc",
+      "type": "backend",
+      "label": "health-classifier",
+      "sublabel": "LangGraph · grading",
+      "pos": [
+        820,
+        60
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "repos.md",
+          "line": 16,
+          "label": "repo role"
+        },
+        {
+          "path": "engineering/system-map.md",
+          "line": 14,
+          "label": "inspect/upload + evaluate-scenarios"
+        },
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 28,
+          "end_line": 29,
+          "label": "steps 4–5"
+        }
+      ]
+    },
+    {
+      "id": "go",
+      "type": "backend",
+      "label": "report-generator",
+      "sublabel": "Go · no inference",
+      "pos": [
+        1080,
+        220
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "repos.md",
+          "line": 17,
+          "label": "stateless Go renderer"
+        },
+        {
+          "path": "engineering/system-map.md",
+          "line": 16,
+          "label": "per-format render routes"
+        },
+        {
+          "path": "engineering/system-map.md",
+          "line": 31,
+          "label": "Go infers no meaning"
+        }
+      ]
+    },
+    {
+      "id": "ims",
+      "type": "external",
+      "label": "IMS",
+      "sublabel": "bridge registry",
+      "pos": [
+        560,
+        60
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "engineering/system-map.md",
+          "line": 19,
+          "label": "backend → IMS"
+        }
+      ]
+    },
+    {
+      "id": "s3",
+      "type": "cloud",
+      "label": "S3",
+      "sublabel": "inputs, photos, outputs",
+      "pos": [
+        560,
+        380
+      ],
+      "size": [
+        150,
+        64
+      ],
+      "sources": [
+        {
+          "path": "use-cases/report-generation/lifecycle.md",
+          "line": 20,
+          "label": "inputs written through to S3"
+        },
+        {
+          "path": "engineering/system-map.md",
+          "line": 22,
+          "label": "Go reads photos from S3"
+        },
+        {
+          "path": "use-cases/report-generation/_index.md",
+          "line": 32,
+          "label": "step 8: store outputs"
+        }
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "sketch-upload",
+      "from": "sketch",
+      "to": "api",
+      "label": "upload sketch"
+    },
+    {
+      "id": "app-create",
+      "from": "app",
+      "to": "api",
+      "label": "HTTP upload",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-enqueue",
+      "from": "api",
+      "to": "queue",
+      "label": "enqueue RQ",
+      "variant": "dashed"
+    },
+    {
+      "id": "queue-worker",
+      "from": "queue",
+      "to": "worker",
+      "label": "report job"
+    },
+    {
+      "id": "worker-hc",
+      "from": "worker",
+      "to": "hc",
+      "label": "inspect · scenarios",
+      "variant": "emphasis"
+    },
+    {
+      "id": "worker-go",
+      "from": "worker",
+      "to": "go",
+      "label": "POST render",
+      "variant": "emphasis"
+    },
+    {
+      "id": "api-ims",
+      "from": "api",
+      "to": "ims",
+      "label": "X-API-Key"
+    },
+    {
+      "id": "api-s3",
+      "from": "api",
+      "to": "s3",
+      "label": "store inputs"
+    },
+    {
+      "id": "worker-s3",
+      "from": "worker",
+      "to": "s3",
+      "label": "inputs & outputs"
+    },
+    {
+      "id": "go-s3",
+      "from": "go",
+      "to": "s3",
+      "label": "read photos"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Main path",
+      "items": [
+        "app or sketch app → backend: validate, bill, then queue",
+        "worker → HC for classification & scenarios → renderer → S3",
+        "app polls status every 5 s, downloads via signed URL"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Contracts",
+      "items": [
+        "Backend resolves every value; Go only validates and places",
+        "Backend → HC has no shared schema (status: unconfirmed)",
+        "Some formats render in the backend, not through Go"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Common failure points",
+      "items": [
+        "Go 409: all render slots busy, never queued",
+        "Go 504: render timeout",
+        "HealthClassifierJobLost: HC job lost on redeploy"
+      ]
+    },
+    {
+      "dot": "slate",
+      "title": "Not drawn",
+      "items": [
+        "hashitaro-common & api-contract (backend/HC submodules)",
+        "hashitaro-mdb: optional Hiroshima .mdb package",
+        "Report status storage & regeneration WebSocket"
+      ]
+    }
+  ]
+}

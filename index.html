@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hashitaro Diagrams</title>
+<meta name="description" content="Source-backed Archify diagrams of the Hashitaro repositories, built from each repository's main branch.">
+<style>
+:root{--bg:#f2f4f6;--surface:#fff;--ink:#16212b;--muted:#5a6772;--line:#d3dae0;--accent:#1d5a9e;color-scheme:light}
+@media (prefers-color-scheme:dark){:root{--bg:#0f151a;--surface:#161f27;--ink:#e2e8ed;--muted:#9aa8b3;--line:#2b3843;--accent:#78acea;color-scheme:dark}}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 system-ui,-apple-system,"Segoe UI",sans-serif;padding:40px max(16px,env(safe-area-inset-left))}
+main{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+h1{margin:0;font-size:clamp(1.8rem,4vw,2.4rem);line-height:1.15}
+p{margin:0;max-width:68ch;color:var(--muted)}
+code{font:0.86em ui-monospace,Menlo,monospace}
+ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+li a{display:flex;flex-direction:column;gap:6px;padding:16px 18px;background:var(--surface);border:1px solid var(--line);border-radius:6px;color:inherit;text-decoration:none}
+li a:hover,li a:focus-visible{border-color:var(--accent);outline:none}
+.title{font-weight:600;font-size:1.1rem;color:var(--accent)}
+.meta{font:0.8rem ui-monospace,Menlo,monospace;color:var(--muted);display:flex;flex-wrap:wrap;gap:4px 16px}
+footer{font-size:.85rem;color:var(--muted);border-top:1px solid var(--line);padding-top:14px}
+</style>
+</head>
+<body>
+<main>
+  <header style="display:flex;flex-direction:column;gap:10px">
+    <h1>Hashitaro Diagrams</h1>
+    <p>Interactive architecture diagrams of the Hashitaro repositories, generated with <a href="https://github.com/tt-a1i/archify">Archify</a>. Every node cites the file and lines it was drawn from, pinned to one commit on the repository's <code>main</code> branch. Press <code>?</code> inside a diagram for its controls.</p>
+  </header>
+
+  <ul>
+    <li>
+      <a href="diagrams/hashitaro-report-pipeline/">
+        <span class="title">Hashitaro cross-repo report pipeline</span>
+        <span>How a report travels from hashitaro-app and the sketch app through the backend, Redis queue and worker to health-classifier, the Go renderer and S3.</span>
+        <span class="meta"><span>architecture</span><span>evidence: hashitaro-docs@0f0ca3a (main)</span><span>2026-11-13</span></span>
+      </a>
+    </li>
+  </ul>
+
+  <footer>Source links point to private IRISA-Robot repositories and open only for people with access.</footer>
+</main>
+</body>
+</html>
